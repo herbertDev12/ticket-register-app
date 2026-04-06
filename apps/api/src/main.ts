@@ -4,10 +4,14 @@ import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 async function bootstrap() {
+  if (!process.env.JWT_SECRET) {
+    throw new Error('JWT_SECRET environment variable is not defined');
+  }
+
   const app = await NestFactory.create(AppModule);
 
-   app.enableCors({
-    origin: process.env.NEXT_PUBLIC_API_URL_CLIENT ,
+  app.enableCors({
+    origin: process.env.NEXT_PUBLIC_API_URL_CLIENT,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });

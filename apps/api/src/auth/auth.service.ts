@@ -10,9 +10,14 @@ const SALT_ROUNDS = 10;
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly prisma: PrismaService, private readonly jwtService: JwtService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly jwtService: JwtService,
+  ) {}
 
-  async register(dto: RegisterInputDto): Promise<{ id: string; email: string; name: string }> {
+  async register(
+    dto: RegisterInputDto,
+  ): Promise<{ id: string; email: string; name: string }> {
     const existing = await this.prisma.user.findUnique({
       where: { email: dto.email },
     });
@@ -39,27 +44,23 @@ export class AuthService {
     return user;
   }
 
-  async signIn(dto: LoginInputDto): Promise<{ id:string, token:string, email:string }> {
+  async validateUser(dto: LoginInputDto): Promise<any> {
     const user = await this.prisma.user.findUnique({
       where: { email: dto.email },
     });
-
-    if (!user) {
-      throw new UnauthorizedException('User not found');
+    if (user && (await bcrypt.compare(dto.password, user.passwordHash))) {
+      const { passwordHash, ...result } = user;
+      return result;
     }
+    return null;
+  }
 
-    const isMatch = await bcrypt.compare(dto.password, user.passwordHash);
-
-    if (!isMatch) {
-      throw new UnauthorizedException('Invalid credentials');
-    }
-
+  async login(user: any) {
     const payload = { sub: user.id, email: user.email };
-
     return {
       id: user.id,
-      token: await this.jwtService.signAsync(payload),
-      email: user.email
+      email: user.email,
+      token: this.jwtService.sign(payload),
     };
   }
 }

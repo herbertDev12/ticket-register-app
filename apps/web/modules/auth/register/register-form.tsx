@@ -27,9 +27,12 @@ const RegisterForm: React.FC = () => {
     mutationFn: register,
     onSuccess: (data) => {
       console.log("User registered:", data);
+      toast.success("Registro exitoso");
+      router.push("/dashboard");
     },
     onError: (error) => {
       console.error(error);
+      toast.error("Error al registrar: " + error);
     },
   });
 
@@ -48,15 +51,7 @@ const RegisterForm: React.FC = () => {
   const router = useRouter();
 
   async function onSubmit(data: IRegisterInputDto) {
-    console.log("Submitting registration form with data:", data);
     mutation.mutate(data);
-
-    if (mutation.isSuccess) {
-      toast.success("Registro exitoso");
-      router.push("/login");
-    } else if (mutation.isError) {
-      toast.error("Error al registrar: " + mutation.error);
-    }
   }
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-muted">
