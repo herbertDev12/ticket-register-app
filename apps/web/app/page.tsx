@@ -8,6 +8,7 @@ import {
   Users,
 } from "lucide-react";
 
+import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -65,6 +66,7 @@ export default function Home() {
             </Link>
           </nav>
           <div className="flex items-center gap-2">
+            <ModeToggle />
             <Link href="/login">
               <Button variant="outline" size="sm">
                 Iniciar Sesión

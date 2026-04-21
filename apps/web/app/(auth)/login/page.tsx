@@ -13,6 +13,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+import { ModeToggle } from "@/components/mode-toggle";
+
 export default function LoginPage() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-muted">
@@ -23,6 +25,9 @@ export default function LoginPage() {
         <BarChart3 className="h-6 w-6" />
         <span>ProjectPro</span>
       </Link>
+      <div className="absolute right-8 top-8">
+        <ModeToggle />
+      </div>
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold">Iniciar Sesión</CardTitle>
