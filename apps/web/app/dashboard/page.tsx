@@ -10,6 +10,8 @@ import { UserNav } from "@/components/user-nav"
 import { ProjectCard } from "@/components/project-card"
 import { RecentActivity } from "@/components/recent-activity"
 
+import { ModeToggle } from "@/components/mode-toggle"
+
 export default function DashboardPage() {
   return (
     <div className="flex min-h-screen flex-col">
@@ -36,7 +38,10 @@ export default function DashboardPage() {
               Recursos
             </Link>
           </nav>
-          <UserNav />
+          <div className="flex items-center gap-4">
+            <ModeToggle />
+            <UserNav />
+          </div>
         </div>
       </header>
       <div className="grid flex-1 md:grid-cols-[220px_1fr]">
